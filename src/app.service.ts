@@ -17,7 +17,11 @@ export class AppService {
       from: 'no-reply@localhost',
       subject: 'Testing Nest Mailermodule with template ✔',
       text: 'welcome',
-      html: '<b>welcome</b>',
+      template: 'index',
+      context: {
+        code: 'cf1a3f828287',
+        username: 'john doe',
+      },
     })
   }
 }

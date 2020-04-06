@@ -1,0 +1,50 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  type_check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: bahmutov/npm-install@v1
+    - uses: icrawl/action-tsc@v1
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: bahmutov/npm-install@v1
+    - uses: hallee/eslint-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test_unit:
+    needs: ['type_check', 'lint']
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: bahmutov/npm-install@v1
+    - name: Run unit test
+      run: |
+        yarn test
+      env:
+        CI: 'true'
+
+  test_e2e:
+    needs: ['type_check', 'lint']
+    runs-on: ubuntu-latest
+    services:
+      maildev:
+        image: maildev/maildev
+        ports:
+        - '1025:25'
+        - '1080:80'
+    steps:
+    - uses: actions/checkout@v2
+    - uses: bahmutov/npm-install@v1
+    - name: Run E2E test
+      run: |
+        yarn test:e2e
+      env:
+        CI: 'true'

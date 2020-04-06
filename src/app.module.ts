@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MailerModule } from '@nestjs-modules/mailer';
+import { MailerModule, HandlebarsAdapter } from '@nestjs-modules/mailer';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -14,6 +14,13 @@ import { AppService } from './app.service';
   		  user: "mailer",
   		  pass: "password",
   		},
+	  },
+	  template: {
+        dir: process.cwd() + '/templates/',
+        adapter: new HandlebarsAdapter(),
+        options: {
+          strict: true,
+        },
       },
   	}),
   ],

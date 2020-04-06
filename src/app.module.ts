@@ -9,7 +9,8 @@ import { AppService } from './app.service';
   	  transport: {
   	    host: 'localhost',
   	    port: 1025,
-  		secure: false, // upgrade later with STARTTLS
+		secure: false,
+		ignoreTLS: true,
   		auth: {
   		  user: "mailer",
   		  pass: "password",

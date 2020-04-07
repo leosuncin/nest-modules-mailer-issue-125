@@ -15,9 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: bahmutov/npm-install@v1
-    - uses: hallee/eslint-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: |
+        npx eslint --ext .js,.ts .
 
   test_unit:
     needs: ['type_check', 'lint']

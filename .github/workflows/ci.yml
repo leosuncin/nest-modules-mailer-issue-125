@@ -47,3 +47,28 @@ jobs:
         yarn test:e2e
       env:
         CI: 'true'
+
+  test_postman:
+    needs: ['type_check', 'lint']
+    runs-on: ubuntu-latest
+    services:
+      maildev:
+        image: maildev/maildev
+        ports:
+        - '1025:25'
+        - '1080:80'
+    steps:
+    - uses: actions/checkout@v2
+    - uses: bahmutov/npm-install@v1
+    - name: Build the server
+      run: yarn build
+    - name: Prune devDependencies
+      run: yarn install --prod
+    - name: Run the server
+      run: |
+        node dist/main.js &
+        sleep 10
+      env:
+        NODE_ENV: production
+    - name: Run Postman collection
+      run: npx newman run https://www.getpostman.com/collections/a4609fe16b12b3996d59

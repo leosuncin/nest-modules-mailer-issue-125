@@ -63,7 +63,9 @@ jobs:
     - name: Build the server
       run: yarn build
     - name: Prune devDependencies
-      run: yarn install --prod
+      run: |
+        rm -rf node_modules
+        yarn install --prod
     - name: Run the server
       run: |
         node dist/main.js &

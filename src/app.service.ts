@@ -16,7 +16,6 @@ export class AppService {
       to: 'john@example.com',
       from: 'no-reply@localhost',
       subject: 'Testing Nest Mailermodule with template ✔',
-      text: 'welcome',
       template: 'index',
       context: {
         code: 'cf1a3f828287',
